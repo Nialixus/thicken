@@ -26,7 +26,7 @@ dependencies:
 
 ## Usage
 
-First, import the typewriter package.
+First, import the thicken package.
 
 ```dart
 import 'package:thicken/thicken.dart';
@@ -46,7 +46,7 @@ Thicken(
 
 ## Documentation
 
-### TypeWriter.text
+### Thicken
 
 | Property           | Purpose                                                                                                           |
 | ------------------ | ----------------------------------------------------------------------------------------------------------------- |
