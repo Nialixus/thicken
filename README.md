@@ -2,7 +2,7 @@
   <img src="https://github.com/Nialixus/thicken/blob/38cfe510ce50ec40b4dd2ed7fada365bf16f89d0/logo.png" alt="Thicken Logo" width="150">
 </p>
 
-# Type Writer Text
+# Thicken
 
 <a href='https://pub.dev/packages/thicken'><img src='https://img.shields.io/pub/v/thicken.svg?logo=flutter&color=blue&style=flat-square'/></a>
 <a href="https://codecov.io/gh/Nialixus/thicken"><img src="https://codecov.io/gh/Nialixus/thicken/graph/badge.svg?token=T66X1R33QE"/></a>
@@ -12,8 +12,7 @@
 A widget that creates a thick visual effect by stacking multiple layers of a given `child` widget with slight translations based on the `thickness` value.
 
 ## Preview
-
-<img src="https://github.com/user-attachments/assets/451d0265-dd2d-4134-807d-a02e1f17b8bb" alt="TypeWriterText Preview" width="300">
+<img src="https://github.com/user-attachments/assets/c663a3fe-1410-47d0-a802-2b085b7cf551" alt="Thicken Preview" width="1280">
 
 
 ## Install
