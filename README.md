@@ -38,7 +38,7 @@ And use it like this
 Thicken(
   thickness: 0.15,
   child: Icon(
-    Icons.star,
+    Icons.accessibility,
     size: 50.0,
   ),
 );
