@@ -1,0 +1,9 @@
+coverage/**/*.html linguist-vendored
+coverage/**/*.css linguist-vendored
+example/**/*.cpp linguist-vendored
+example/**/*.cc linguist-vendored
+example/**/*.h linguist-vendored
+example/**/*.cmake linguist-vendored
+example/**/*.txt linguist-vendored
+example/**/*.swift linguist-vendored
+*.sh linguist-vendored

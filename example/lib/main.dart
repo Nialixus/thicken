@@ -51,8 +51,27 @@ class _MAP extends State<MyApp> {
           child: Slider(
             value: thickness,
             min: 0.0,
-            max: 2.0,
+            max: 10.0,
             onChanged: (value) => setState(() => thickness = value),
+          ),
+        ),
+        Visibility(
+          visible: thickness > 1.0,
+          maintainSize: true,
+          maintainState: true,
+          maintainAnimation: true,
+          child: const Text.rich(
+            TextSpan(
+              children: [
+                WidgetSpan(child: Icon(Icons.warning, color: Colors.red)),
+                TextSpan(
+                  text: ' '
+                      'It is not recommended to use '
+                      'a thickness that is greater than 1.0',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ],
+            ),
           ),
         ),
       ],
