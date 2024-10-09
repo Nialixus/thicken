@@ -1,6 +1,6 @@
 name: thicken
 description: A widget that creates a thick visual effect by stacking multiple layers of a given child widget with slight translations based on the thickness value.
-version: 1.0.0
+version: 1.1.0
 homepage: https://inidia.app
 repository: https://github.com/Nialixus/thicken.git
 issue_tracker: https://github.com/Nialixus/thicken/issues

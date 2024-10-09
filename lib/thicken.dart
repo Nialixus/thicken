@@ -17,7 +17,9 @@
 /// ```
 library thicken;
 
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 /// A widget that creates a thick visual effect by stacking multiple
 /// layers of a given [child] widget with slight translations based on the
@@ -52,6 +54,7 @@ class Thicken extends StatelessWidget {
   /// offset translations.
   const Thicken({
     super.key,
+    this.pixelRatio = 1.0,
     required this.thickness,
     required this.child,
   });
@@ -74,21 +77,57 @@ class Thicken extends StatelessWidget {
     return 3 + (range * 2);
   }
 
+  /// The pixel ratio of the [child] widget.
+  /// By default, this is set to 1.0.
+  final double pixelRatio;
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: List.generate(layers * layers, (index) {
-        final indexX = index % layers;
-        final indexY = index ~/ layers;
-        final offsetX = (1 - (2 * indexX / layers)) * thickness;
-        final offsetY = (1 - (2 * indexY / layers)) * thickness;
+    final key = GlobalKey(debugLabel: 'thicken');
+    return FutureBuilder(
+      future: () async {
+        try {
+          // Wait until after the frame is built
+          await Future.delayed(Duration.zero);
 
-        return Transform.translate(
-          offset: Offset(offsetX, offsetY),
-          child: child,
+          final boundary = key.currentContext?.findRenderObject();
+          if (boundary is RenderRepaintBoundary) {
+            final image = await boundary.toImage(pixelRatio: pixelRatio);
+            final byte = await image.toByteData(
+              format: ui.ImageByteFormat.png,
+            );
+
+            return byte?.buffer.asUint8List();
+          }
+        } catch (e) {
+          return null;
+        }
+      }(),
+      builder: (builder, snapshot) {
+        return Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.center,
+          children: [
+            if (snapshot.hasData)
+              ...List.generate(layers * layers, (index) {
+                final indexX = index % layers;
+                final indexY = index ~/ layers;
+                final offsetX = (1 - (2 * indexX / layers)) * thickness;
+                final offsetY = (1 - (2 * indexY / layers)) * thickness;
+
+                if (index + indexY == 0) return const SizedBox();
+                return Transform.translate(
+                  offset: Offset(offsetX, offsetY),
+                  child: Image.memory(snapshot.data!),
+                );
+              }),
+            RepaintBoundary(
+              key: key,
+              child: child,
+            ),
+          ],
         );
-      }),
+      },
     );
   }
 }
