@@ -31,10 +31,19 @@ class _MAP extends State<MyApp> {
       children: [
         Thicken(
           thickness: thickness,
-          child: const Text(
-            'Thicc',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black),
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.format_bold_rounded,
+                color: Colors.black,
+              ),
+              Text(
+                'Thicc',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black),
+              ),
+            ],
           ),
         ),
         Center(

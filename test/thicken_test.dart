@@ -6,10 +6,10 @@ void main() {
   testWidgets('Thicken Widget Test', (WidgetTester tester) async {
     debugPrint("✅ Test is started !");
     await tester.pumpWidget(
-      const MaterialApp(
+      MaterialApp(
         home: Thicken(
           thickness: 2.5,
-          child: Text(
+          child: const Text(
             'Thickened Text',
             style: TextStyle(fontSize: 24),
           ),
