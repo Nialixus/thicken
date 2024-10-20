@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/Nialixus/thicken/blob/38cfe510ce50ec40b4dd2ed7fada365bf16f89d0/logo.png" alt="Thicken Logo" width="150">
+  <img src="https://raw.githubusercontent.com/Nialixus/thicken/refs/heads/main/logo.png" alt="Thicken Logo" width="150">
 </p>
 
 # Thicken
@@ -12,7 +12,7 @@
 A widget that creates a thick visual effect by stacking multiple layers of a given `child` widget with slight translations based on the `thickness` value.
 
 ## Preview
-<img src="https://raw.githubusercontent.com/Nialixus/thicken/refs/heads/main/logo.png" alt="Thicken Preview" width="1280">
+<img src="https://github.com/user-attachments/assets/c663a3fe-1410-47d0-a802-2b085b7cf551" alt="Thicken Preview" width="1280">
 
 
 ## Install
