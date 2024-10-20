@@ -12,7 +12,7 @@
 A widget that creates a thick visual effect by stacking multiple layers of a given `child` widget with slight translations based on the `thickness` value.
 
 ## Preview
-<img src="https://github.com/user-attachments/assets/c663a3fe-1410-47d0-a802-2b085b7cf551" alt="Thicken Preview" width="1280">
+<img src="https://raw.githubusercontent.com/Nialixus/thicken/refs/heads/main/logo.png" alt="Thicken Preview" width="1280">
 
 
 ## Install
@@ -21,7 +21,7 @@ Add this line to your pubspec.yaml.
 
 ```yaml
 dependencies:
-  thicken: ^1.1.1
+  thicken: ^1.1.2
 ```
 
 ## Usage

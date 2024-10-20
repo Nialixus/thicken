@@ -6,3 +6,6 @@
 
 ## 1.1.1
 * Update test coverage
+
+## 1.1.2
+* Update logo in readme
