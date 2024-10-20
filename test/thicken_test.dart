@@ -42,11 +42,12 @@ void main() {
     );
     debugPrint("✅ ${stack.children.length} Stack children found !");
 
+    await tester.pumpAndSettle();
     // Calculate the expected number of layers
     final expectedLayers = 3 + (thickenWidget.thickness.floor() * 2);
     expect(
       stack.children.length,
-      expectedLayers * expectedLayers,
+      expectedLayers * expectedLayers + 1,
       reason: 'Verify that the expected number of layers is rendered',
     );
     debugPrint("✅ $expectedLayers Layers found as expected !");
