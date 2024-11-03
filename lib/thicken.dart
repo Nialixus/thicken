@@ -20,6 +20,7 @@ library thicken;
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 /// A widget that creates a thick visual effect by stacking multiple
@@ -50,21 +51,18 @@ import 'package:flutter/widgets.dart';
 /// _**(It is not recommended to set thickness greater than 1.0)**_
 ///
 /// [child] : The widget that will be "thickened" by drawing multiple layers.
-class Thicken extends StatelessWidget {
+class Thicken extends StatefulWidget {
   /// Creates a [Thicken] widget.
   ///
   /// The [thickness] parameter defines how many layers of the child widget
   /// will be drawn, as the [pixelRatio] parameter is used to define the sharpness of the strokes,
   /// and the [child] is the widget that will be thickened.
-  Thicken({
+  const Thicken({
     super.key,
-    this.pixelRatio = 1.0,
+    this.pixelRatio = 2.0,
     required this.thickness,
     required this.child,
   });
-
-  /// The key used to convert the [child] widget to an image.
-  late final _key = GlobalKey(debugLabel: 'thicken.$key');
 
   /// The amount of thickness applied. The thickness controls how many layers
   /// of the [child] widget are created. A higher [thickness] value creates more
@@ -90,57 +88,88 @@ class Thicken extends StatelessWidget {
   }
 
   @override
+  State<Thicken> createState() => _ThickenState();
+}
+
+class _ThickenState extends State<Thicken> {
+  @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: () async {
-        try {
-          // Wait until after the frame is built
-          await Future.delayed(Duration.zero);
+    if (widget.thickness == 0.0) return child;
+    return Stack(
+      children: [
+        if (image != null)
+          ...List.generate(
+            widget.layers * widget.layers,
+            (index) {
+              final indexX = index % widget.layers;
+              final indexY = index ~/ widget.layers;
+              final offsetX =
+                  (1 - (2 * indexX / widget.layers)) * widget.thickness;
+              final offsetY =
+                  (1 - (2 * indexY / widget.layers)) * widget.thickness;
 
-          final boundary = _key.currentContext?.findRenderObject();
-          if (boundary is RenderRepaintBoundary) {
-            final image = await boundary.toImage(pixelRatio: pixelRatio);
-            final byte = await image.toByteData(
-              format: ui.ImageByteFormat.png,
-            );
-
-            return byte?.buffer.asUint8List();
-          }
-
-          return null;
-        } catch (e) {
-          return null;
-        }
-      }(),
-      builder: (builder, snapshot) {
-        return Stack(
-          children: [
-            ...List.generate(
-              layers * layers,
-              (index) {
-                final indexX = index % layers;
-                final indexY = index ~/ layers;
-                final offsetX = (1 - (2 * indexX / layers)) * thickness;
-                final offsetY = (1 - (2 * indexY / layers)) * thickness;
-
-                if (index + indexY == 0) return const SizedBox();
-                return Positioned.fill(
-                  child: Transform.translate(
+              if (index + indexY == 0) return const SizedBox();
+              return Positioned.fill(
+                child: Transform.translate(
                     offset: Offset(offsetX, offsetY),
-                    child: snapshot.data != null
-                        ? Image.memory(snapshot.data!)
-                        : child,
-                  ),
-                );
-              },
-            ),
-            RepaintBoundary(
-              key: _key,
-              child: child,
-            ),
-          ],
-        );
-      },
+                    child: Image.memory(image!)),
+              );
+            },
+          ),
+        RepaintBoundary(
+          key: _key,
+          child: child,
+        ),
+      ],
     );
+  }
+
+  /// The child widget that will be thickened with multiple layers.
+  late final Widget child = widget.child;
+
+  /// The key used to convert the [child] widget to an image.
+  late final GlobalKey _key;
+
+  /// The generated image of the [child] widget.
+  Uint8List? image;
+
+  /// Converts the [child] widget to an image.
+  ///
+  /// Returns a [Future] that completes with the [Uint8List] of the image.
+  Future<Uint8List?> toBitmap() async {
+    try {
+      // Wait until after the frame is built
+      await Future.delayed(Duration.zero);
+
+      final boundary = _key.currentContext?.findRenderObject();
+      if (boundary is RenderRepaintBoundary) {
+        final image = await boundary.toImage(pixelRatio: widget.pixelRatio);
+        final byte = await image.toByteData(
+          format: ui.ImageByteFormat.png,
+        );
+
+        return byte?.buffer.asUint8List();
+      }
+
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _key = GlobalKey();
+    if (mounted) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+        try {
+          final image = await toBitmap();
+          setState(() => this.image = image);
+        } catch (_) {
+          // do nothing
+        }
+      });
+    }
   }
 }

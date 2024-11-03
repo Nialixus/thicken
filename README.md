@@ -21,7 +21,7 @@ Add this line to your pubspec.yaml.
 
 ```yaml
 dependencies:
-  thicken: ^1.1.2
+  thicken: ^1.1.3
 ```
 
 ## Usage
@@ -50,6 +50,7 @@ Thicken(
 
 | Property           | Purpose                                                                                                           |
 | ------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| pixelRatio         | The sharpness quality of the stroke.                                                                              |
 | thickness          | The amount of thickness applied. _**(It is not recommended to set thickness greater than 1.0)**_                  |
 | child              | The child widget that will be thickened as multiple layers.                                                       |
 
