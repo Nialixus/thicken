@@ -21,7 +21,7 @@ Add this line to your pubspec.yaml.
 
 ```yaml
 dependencies:
-  thicken: ^1.1.3
+  thicken: ^1.1.2
 ```
 
 ## Usage

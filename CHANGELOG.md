@@ -9,6 +9,4 @@
 
 ## 1.1.2
 * Update logo in readme
-
-## 1.1.3
 * Update Thicken Test
